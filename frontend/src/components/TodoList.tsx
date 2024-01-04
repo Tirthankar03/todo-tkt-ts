@@ -8,6 +8,7 @@ import { useAppSelector } from "../store/store";
 const TodoList:FC = () => {
   //fetch data from Appselector
   const todos = useAppSelector(state=>state.todo.todos);
+  //state => state.todo (abstracted inside)
   // const todos2 = useAppSelector(state=>state.todo);
   // const todos3 = useAppSelector(state=>state);
 
@@ -15,6 +16,27 @@ const TodoList:FC = () => {
   console.log(todos);
   // console.log(todos2);
   // console.log(todos3);
+
+    //   const getTodos = async() => { 
+    //     try {
+
+    //         const res = await fetch("http://localhost:5000/api/todos/get",{
+    //             method: "GET",
+    //             mode: "no-cors", 
+    //         })
+
+    //         const data = await res.json();
+
+    //         console.log(data);
+
+    //         return data;
+
+    //     } catch (error) {
+    //         console.log("Error has occurred :(", error);
+    //     }
+    //  }
+
+    //  getTodos();
   
   
     return (
@@ -24,7 +46,7 @@ const TodoList:FC = () => {
           <TodoCard/> */}
 
           {todos.map(todo=>{
-            return <TodoCard key={todo.id} text={todo.text} />
+            return <TodoCard key={todo._id} id={todo._id} text={todo.text} />
           })}
       </Flex>
     );

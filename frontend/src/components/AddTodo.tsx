@@ -1,7 +1,7 @@
 import  { useState } from 'react'
 import { Box, Flex,FormControl, Textarea, Button } from "@chakra-ui/react";
 import { useAppDispatch } from "../store/store";
-import { addTodo } from '../store/features/todoSlice';
+import { addTodo, saveTodos } from '../store/features/todoSlice';
 
 function AddTodo() {
     const [textInput, setTextInput] = useState('')
@@ -46,7 +46,12 @@ function AddTodo() {
                 onChange={handleTextChange}
                  value={textInput}/>
 
-                <Button colorScheme='red' onClick={()=>dispatch(addTodo({text:textInput}))}>Add</Button>
+                <Button colorScheme='red' onClick={()=>
+                {
+                    dispatch(saveTodos(textInput)) 
+                    setTextInput("")
+                }
+                    }>Add</Button>
         </Flex>
     </FormControl>
     </Box>
