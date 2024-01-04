@@ -3,11 +3,11 @@ import { FC } from "react";
 
 
 
-const TodoCard:FC = () => {
+const TodoCard: FC<{ text: string }> = ({ text }) => {
     return (
         <Box color='gray.600' w='100%' bg='white' p='6' rounded='md' >
         <Flex direction='row' justify='space-between' align='center'>
-            <Text>This is a todo</Text>
+            <Text>{text}</Text>
             <Flex justify='space-between' align='center' >
                 <Button colorScheme='yellow' mx='4'>edit</Button>
                 <Button colorScheme='green'>done</Button>
