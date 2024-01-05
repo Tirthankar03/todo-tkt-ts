@@ -5,10 +5,11 @@ import './App.css'
 import TodoList from "./components/TodoList";
 import AddTodo from "./components/AddTodo";
 import { useAppDispatch } from "./store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchTodos } from "./store/features/todoSlice";
 
 function App() {
+  const [currentId, setCurrentId] = useState(null)
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchTodos());
@@ -18,8 +19,8 @@ function App() {
     <Container maxW="640px">
     {/* <h1>hi App</h1> */}
     <Header/>
-    <AddTodo/>
-    <TodoList/>
+    <AddTodo currentId={currentId} setCurrentId={setCurrentId}/>
+    <TodoList setCurrentId={setCurrentId}/>
   </Container>
   )
 }

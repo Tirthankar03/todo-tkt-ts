@@ -1,9 +1,9 @@
-import  { useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { Box, Flex,FormControl, Textarea, Button } from "@chakra-ui/react";
-import { useAppDispatch } from "../store/store";
-import { addTodo, saveTodos } from '../store/features/todoSlice';
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { addTodo, saveTodos, updateTodos } from '../store/features/todoSlice';
 
-function AddTodo() {
+const AddTodo = ({currentId, setCurrentId}) => {
     const [textInput, setTextInput] = useState('')
 
     const handleTextChange = (e:any) => { 
@@ -36,6 +36,18 @@ function AddTodo() {
 
     const dispatch = useAppDispatch();
 
+    const todo = useAppSelector(state=> currentId ? state.todo.todos.find((e) => e._id === currentId): null);
+    console.log("todo in AddTodo",todo);
+    console.log("the currentId", currentId);
+    console.log("the textinput", textInput);
+    
+    useEffect(() => {
+      
+        if(todo) setTextInput(todo.text)
+    
+    }, [todo])
+    
+
   return (
     <Flex direction='column' justify={"center"} align={"center"}mt={6} mb='12'>
     <Box color='gray.800' w='100%' bg='blue.200' p='4' rounded='2xl' >
@@ -48,8 +60,17 @@ function AddTodo() {
 
                 <Button colorScheme='red' onClick={()=>
                 {
-                    dispatch(saveTodos(textInput)) 
-                    setTextInput("")
+
+                    let updateInfo = {id:currentId, text: textInput};
+                    if(currentId){
+                        dispatch(updateTodos(updateInfo)) 
+                        setTextInput("")
+                        setCurrentId(null)
+                    }else{
+                        dispatch(saveTodos(textInput)) 
+                        setTextInput("")
+                        setCurrentId(null)
+                    }
                 }
                     }>Add</Button>
         </Flex>

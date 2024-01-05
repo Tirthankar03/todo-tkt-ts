@@ -49,6 +49,7 @@ export const fetchTodos = createAsyncThunk(
       return data;
     },
   );
+
   export const deleteTodos = createAsyncThunk(
     "todos/delete",
     async (id: number, thunkAPI) => {
@@ -71,6 +72,29 @@ export const fetchTodos = createAsyncThunk(
     },
   );
 
+  export const updateTodos = createAsyncThunk(
+    "todos/update",
+    async (  { id, text }: { id: number; text: string }, thunkAPI) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/todos/update/${id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  text,
+                }),
+              });
+              const data = await response.json();
+              console.log("data that should've come back",data);
+              
+              let updatedText = data.todo.text;
+              return {id, updatedText};
+        } catch (err) {
+            console.log("error in updating todos", err);
+        }
+    },
+  );
 
 export const TodoSlice = createSlice({
     name: "todo",
@@ -102,8 +126,20 @@ export const TodoSlice = createSlice({
             console.log("state.todos?", state.todos);
           
             state.todos = state.todos.filter((ele) => ele._id != null && ele._id !== deletedId);
-        
           });
+
+
+        
+    builder.addCase(updateTodos.fulfilled, (state, action) => {
+        const { id, updatedText } = action.payload;
+        // Find the index of the todo with the given id
+        const todoIndex = state.todos.findIndex((todo) => todo._id === id);
+  
+        if (todoIndex !== -1) {
+          // If the todo is found, update its text
+          state.todos[todoIndex].text = updatedText;
+        }
+      });
 
 
       },

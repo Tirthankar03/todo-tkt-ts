@@ -5,7 +5,7 @@ import { useAppSelector } from "../store/store";
 
 
 
-const TodoList:FC = () => {
+const TodoList:FC = ({setCurrentId}) => {
   //fetch data from Appselector
   const todos = useAppSelector(state=>state.todo.todos);
   //state => state.todo (abstracted inside)
@@ -46,7 +46,7 @@ const TodoList:FC = () => {
           <TodoCard/> */}
 
           {todos.map(todo=>{
-            return <TodoCard key={todo._id} id={todo._id} text={todo.text} />
+            return <TodoCard key={todo._id} id={todo._id} text={todo.text} setCurrentId={setCurrentId} />
           })}
       </Flex>
     );
