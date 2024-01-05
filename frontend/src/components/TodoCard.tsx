@@ -1,16 +1,19 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { FC } from "react";
+import { useAppDispatch } from "../store/store";
+import { deleteTodos } from "../store/features/todoSlice";
 
 
 
-const TodoCard:FC = () => {
+const TodoCard: FC<{ text: string, id:any }> = ({ text, id }) => {
+  const dispatch = useAppDispatch();
     return (
         <Box color='gray.600' w='100%' bg='white' p='6' rounded='md' >
         <Flex direction='row' justify='space-between' align='center'>
-            <Text>This is a todo</Text>
+            <Text>{text}</Text>
             <Flex justify='space-between' align='center' >
                 <Button colorScheme='yellow' mx='4'>edit</Button>
-                <Button colorScheme='green'>done</Button>
+                <Button colorScheme='green' onClick={()=>dispatch(deleteTodos(id))}>done</Button>
             </Flex>
         </Flex>
     </Box>
